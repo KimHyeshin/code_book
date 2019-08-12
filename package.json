@@ -1,0 +1,19 @@
+{
+  "name": "code_book",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^2.6.2",
+    "express": "^4.17.1",
+    "lowdb": "^1.0.0",
+    "lowdb-recursive": "^1.0.7",
+    "nodemon": "^1.19.1"
+  }
+}
