@@ -43,10 +43,10 @@ app.post('/searchResult',function(req,res){
     var searchOptions = req.body.searchOptions;
     var searchText = req.body.searchText;
 
-    // console.log('searchOptions')
-    // console.log(searchOptions)
-    // console.log('searchText')
-    // console.log(searchText)
+    console.log('searchOptions')
+    console.log(searchOptions)
+    console.log('searchText')
+    console.log(searchText)
 
     var data = db.get('posts').value();
     var result = []
@@ -67,6 +67,7 @@ app.post('/searchResult',function(req,res){
         }
     }
 
-    console.log(result)
-    res.render('searchResult.ejs', { data:result, searchOptions:searchOptions, searchText:searchText })
+    // console.log(result)
+    res.json({ data:result })
+    // res.render('searchResult.ejs', { data:result, searchOptions:searchOptions, searchText:searchText })
 });

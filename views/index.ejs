@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="container pt-3">
-    <form class="form-inline" action="http://localhost:3000/searchResult" method="post">
+    <form class="form-inline">
         <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="searchOptions" id="inlineRadio1" value="startsWith" checked>
             <label class="form-check-label" for="inlineRadio1">startsWith</label>
@@ -21,37 +21,40 @@
             <label for="staticText" class="sr-only">Search Text</label>
             <input type="text" class="form-control" id="staticText" name="searchText" value="">
         </div>
-        <button type="submit" class="btn btn-primary mb-2 ml-2">Search</button>
+        <button class="btn btn-primary mb-2 ml-2" onclick="search();">Search</button>
     </form>
-    <table class="table mt-2">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">KeyWord</th>
-            <th scope="col">Description</th>
-            <th scope="col">Date</th>
-            <th scope="col">Author</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% for(var i=0; i<data.length;i++) {%>
-            <tr>
-                <th scope="row"><%= i+1 %></th>
-                <td><%= data[i].keyword %></td>
-                <td><%= data[i].description %></td>
-                <td><%= data[i].date %></td>
-                <td><%= data[i].author %></td>
-            </tr>
-        <% }%>
-        </tbody>
-    </table>
+    <%- include('list', {data: data}); %>
 </div>
 
 <script type="text/javascript">
-    window.onload = function(){
-        var data = {};
-        console.log('onload')
-    }
+    $(document).ready(function () {
+        function search() {
+            var form = $("form")[0];
+            var formData = new FormData(form);
+
+            $.ajax({
+                cache : false,
+                url : "/searchResult",
+                processData: false,
+                contentType: false,
+                type : 'POST',
+                data : formData,
+                success : function(data) {
+                    var result = JSON.parse(data);
+                    console.log(result)
+                    // new EJS({
+                    //     url: 'partials/spider-chart.ejs'
+                    // }).update(
+                    //     document.querySelector('.panel-body.text-center'),
+                    //     result
+                    // );
+                },
+                error : function(xhr, status) {
+                    alert(xhr + " : " + status);
+                }
+            });
+        }
+    });
 </script>
 </body>
 </html>
