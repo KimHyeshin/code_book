@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="container pt-3">
-    <form class="form-inline">
+    <form id="form" class="form-inline" method="post">
         <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="searchOptions" id="inlineRadio1" value="startsWith" checked>
             <label class="form-check-label" for="inlineRadio1">startsWith</label>
@@ -21,39 +21,37 @@
             <label for="staticText" class="sr-only">Search Text</label>
             <input type="text" class="form-control" id="staticText" name="searchText" value="">
         </div>
+        <input type="submit" value="search">
         <button class="btn btn-primary mb-2 ml-2" onclick="search();">Search</button>
     </form>
-    <%- include('list', {data: data}); %>
+    <div class="_list">
+        <%- include('list', {data: data}); %>
+    </div>
 </div>
 
 <script type="text/javascript">
     $(document).ready(function () {
-        function search() {
+        $('#form').submit(function() {
             var form = $("form")[0];
-            var formData = new FormData(form);
+            var formData = form.serialize();
 
             $.ajax({
                 cache : false,
-                url : "/searchResult",
+                url : "/list/getItems",
                 processData: false,
-                contentType: false,
                 type : 'POST',
                 data : formData,
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                dataType: 'html',
                 success : function(data) {
-                    var result = JSON.parse(data);
-                    console.log(result)
-                    // new EJS({
-                    //     url: 'partials/spider-chart.ejs'
-                    // }).update(
-                    //     document.querySelector('.panel-body.text-center'),
-                    //     result
-                    // );
+                    console.log(data)
+                    $('._list').html(data);
                 },
                 error : function(xhr, status) {
                     alert(xhr + " : " + status);
                 }
             });
-        }
+        })
     });
 </script>
 </body>
