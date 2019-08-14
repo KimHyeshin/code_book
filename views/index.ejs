@@ -21,8 +21,7 @@
             <label for="staticText" class="sr-only">Search Text</label>
             <input type="text" class="form-control" id="staticText" name="searchText" value="">
         </div>
-        <input type="submit" value="search">
-        <button class="btn btn-primary mb-2 ml-2" onclick="search();">Search</button>
+        <button id="sendBtn" class="btn btn-primary mb-2 ml-2">Search</button>
     </form>
     <div class="_list">
         <%- include('list', {data: data}); %>
@@ -31,27 +30,30 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#form').submit(function() {
-            var form = $("form")[0];
-            var formData = form.serialize();
+        $("#sendBtn").click(function($event) {
+            $event.preventDefault();
+            var data = $('#form').serialize();
 
             $.ajax({
-                cache : false,
-                url : "/list/getItems",
+                type: "POST",
+                enctype: 'application/x-www-form-urlencoded',
+                url: "/",
+                data: data,
                 processData: false,
-                type : 'POST',
-                data : formData,
-                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                dataType: 'html',
-                success : function(data) {
+                cache: false,
+                timeout: 600000,
+                success: function (data) {
+                    // alert("complete");
                     console.log(data)
-                    $('._list').html(data);
+                    $('._list').html(data.data);
                 },
-                error : function(xhr, status) {
-                    alert(xhr + " : " + status);
+                error: function (e) {
+                    console.log("ERROR : ", e);
+                    alert("ERROR");
                 }
             });
-        })
+
+        });
     });
 </script>
 </body>
