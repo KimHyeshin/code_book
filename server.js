@@ -30,5 +30,7 @@ app.engine('html', require('ejs').renderFile);
 
 // route
 var index = require('./routes/index');
+var add = require('./routes/add');
 app.use('/', index);
+app.use('/add', add);
 

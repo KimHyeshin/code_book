@@ -26,8 +26,60 @@
     <div class="_list">
         <%- include('list', {data: data}); %>
     </div>
+    <div class="modal fade" id="resultNoneModal" tabindex="-1" role="dialog" aria-labelledby="resultNoneModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="resultNoneModal">결과</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    검색 결과가 없습니다. 키워드를 추가하시겠습니까?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                    <button type="button" class="btn btn-primary" id="showAddBtn">추가</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addModalLabel">새 키워드 추가</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addForm">
+                        <div class="form-group">
+                            <label for="keywordEng">영문명</label>
+                            <input type="text" name="keywordEng" class="form-control" id="keywordEng" placeholder="영문명을 입력하세요.">
+                        </div>
+                        <div class="form-group">
+                            <label for="keywordKor">한글명</label>
+                            <input type="text" name="keywordKor" class="form-control" id="keywordKor" placeholder="한글명을 입력하세요.">
+                        </div>
+                        <div class="form-group">
+                            <label for="author">작성자</label>
+                            <input type="text" name="author" class="form-control" id="author" placeholder="작성자를 입력하세요.">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                    <button type="button" class="btn btn-primary" id="addBtn">추가</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         $("#sendBtn").click(function($event) {
@@ -45,7 +97,11 @@
                 success: function (data) {
                     // alert("complete");
                     console.log(data)
-                    $('._list').html(data.data);
+                    if(data.count == 0){
+                        $('#resultNoneModal').modal('show')
+                    } else {
+                        $('._list').html(data.data);
+                    }
                 },
                 error: function (e) {
                     console.log("ERROR : ", e);
@@ -53,6 +109,33 @@
                 }
             });
 
+        });
+        $(document).on("click", "#showAddBtn", function(event){
+            $('#resultNoneModal').modal('hide')
+            $('#addModal').modal('show')
+        });
+        $(document).on("click", "#addBtn", function(event){
+            var data = $('#addForm').serialize();
+
+            $.ajax({
+                type: "POST",
+                enctype: 'application/x-www-form-urlencoded',
+                url: "/add",
+                data: data,
+                processData: false,
+                cache: false,
+                timeout: 600000,
+                success: function (data) {
+                    $('#addModal').modal('hide')
+                    alert("키워드가 추가되었습니다.");
+                    console.log(data)
+                    $('._list').html(data.data);
+                },
+                error: function (e) {
+                    console.log("ERROR : ", e);
+                    alert("ERROR");
+                }
+            });
         });
     });
 </script>
