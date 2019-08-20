@@ -14,7 +14,7 @@ var ejs = require('ejs');
 
 router.get('/',function(req, res){
     console.log("GET")
-    var data = db.get('posts').value()
+    var data = db.get('posts').sortBy('keywordEng').value()
     res.render('index.ejs', { data:data })
 });
 
@@ -36,7 +36,7 @@ router.post('/',function(req,res){
     }
 
     // data 불러오기
-    var data = db.get('posts').value();
+    var data = db.get('posts').sortBy('keywordEng').value();
     var result = []
 
     // data 가공

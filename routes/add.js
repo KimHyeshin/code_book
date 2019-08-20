@@ -42,7 +42,7 @@ router.post('/',function(req,res){
         .write()
 
     // data 불러오기
-    var data = db.get('posts').value();
+    var data = db.get('posts').sortBy('keywordEng').value();
 
     // html str 만들기
     // 1. file read
