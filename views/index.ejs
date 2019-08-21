@@ -137,6 +137,26 @@
                 }
             });
         });
+        $(document).on("click", "#deleteBtn", function(event){
+            var keywordEng = $(event.target).data('keyword');
+
+            $.ajax({
+                type: "POST",
+                url: "/delete/"+keywordEng,
+                processData: false,
+                cache: false,
+                timeout: 600000,
+                success: function (data) {
+                    alert(keywordEng + " 키워드가 삭제되었습니다.");
+                    console.log(data)
+                    $('._list').html(data.data);
+                },
+                error: function (e) {
+                    console.log("ERROR : ", e);
+                    alert("ERROR");
+                }
+            });
+        });
     });
 </script>
 </body>
