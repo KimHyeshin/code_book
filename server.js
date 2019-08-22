@@ -32,7 +32,9 @@ app.engine('html', require('ejs').renderFile);
 var indexRoute = require('./routes/index');
 var addRoute = require('./routes/add');
 var deleteRoute = require('./routes/delete');
+var modifyRoute = require('./routes/modify');
 app.use('/', indexRoute);
 app.use('/add', addRoute);
 app.use('/delete', deleteRoute);
+app.use('/modify', modifyRoute);
 

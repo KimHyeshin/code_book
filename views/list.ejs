@@ -4,7 +4,7 @@
             <th scope="col">#</th>
             <th scope="col">영문명</th>
             <th scope="col">한글명</th>
-            <th scope="col">Date</th>
+            <th scope="col">최종수정일</th>
             <th scope="col">Author</th>
             <th scope="col">수정/삭제</th>
         </tr>
@@ -17,7 +17,21 @@
                 <td><%= data[i].keywordKor %></td>
                 <td><%= data[i].date %></td>
                 <td><%= data[i].author %></td>
-                <td><button type="button" id="modifyBtn" class="btn btn-outline-dark btn-sm">수정</button> <button type="button" id="deleteBtn" class="btn btn-outline-dark btn-sm" data-keyword="<%= data[i].keywordEng %>">삭제</button></td>
+                <td>
+                    <button type="button" id="showModifyBtn" class="btn btn-outline-dark btn-sm"
+                            data-toggle="modal" data-target="#modifyModal"
+                            data-keywordEng="<%= data[i].keywordEng %>"
+                            data-keywordKor="<%= data[i].keywordKor %>"
+                            data-author="<%= data[i].author %>"
+                    >
+                        수정
+                    </button>
+                    <button type="button" id="deleteBtn" class="btn btn-outline-dark btn-sm"
+                            data-keyword="<%= data[i].keywordEng %>"
+                    >
+                        삭제
+                    </button>
+                </td>
             </tr>
         <% }%>
         </tbody>

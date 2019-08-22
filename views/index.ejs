@@ -39,8 +39,8 @@
                     검색 결과가 없습니다. 키워드를 추가하시겠습니까?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
                     <button type="button" class="btn btn-primary" id="showAddBtn">추가</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
                 </div>
             </div>
         </div>
@@ -71,8 +71,40 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
                     <button type="button" class="btn btn-primary" id="addBtn">추가</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modifyModal" tabindex="-1" role="dialog" aria-labelledby="modifyModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modifyModalLabel">키워드 정보 변경</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="modifyForm">
+                        <div class="form-group">
+                            <label for="keywordEng2">영문명</label>
+                            <input type="text" name="keywordEng" class="form-control" id="keywordEng2" placeholder="영문명을 입력하세요.">
+                        </div>
+                        <div class="form-group">
+                            <label for="keywordKor2">한글명</label>
+                            <input type="text" name="keywordKor" class="form-control" id="keywordKor2" placeholder="한글명을 입력하세요.">
+                        </div>
+                        <div class="form-group">
+                            <label for="author2">작성자</label>
+                            <input type="text" name="author" class="form-control" id="author2" placeholder="작성자를 입력하세요.">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="modifyBtn">수정</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
                 </div>
             </div>
         </div>
@@ -156,6 +188,46 @@
                     alert("ERROR");
                 }
             });
+        });
+        $(document).on("click", "#showModifyBtn", function(event){
+            $('#modifyModal').modal('show')
+        });
+        $(document).on("click", "#modifyBtn", function(event){
+            var data = $('#modifyForm').serialize();
+
+            $.ajax({
+                type: "POST",
+                enctype: 'application/x-www-form-urlencoded',
+                url: "/modify",
+                data: data,
+                processData: false,
+                cache: false,
+                timeout: 600000,
+                success: function (data) {
+                    $('#modifyModal').modal('hide')
+                    alert("키워드 정보가 수정되었습니다.");
+                    console.log(data)
+                    $('._list').html(data.data);
+                },
+                error: function (e) {
+                    console.log("ERROR : ", e);
+                    alert("ERROR");
+                }
+            });
+        });
+        $("#modifyModal").on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var modal = $(this);
+
+            console.log('modifyModal show')
+
+            var keywordEng = button.attr('data-keywordEng');
+            var keywordKor = button.attr('data-keywordKor');
+            var author = button.attr('data-author');
+
+            modal.find('.modal-body #keywordEng2').val(keywordEng);
+            modal.find('.modal-body #keywordKor2').val(keywordKor);
+            modal.find('.modal-body #author2').val(author);
         });
     });
 </script>
