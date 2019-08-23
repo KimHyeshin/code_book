@@ -5,6 +5,12 @@
     <title>Code book</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mark.js@8.11.1/dist/jquery.mark.min.js" charset="UTF-8"></script>
+    <style>
+        mark{
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 <div class="container pt-3">
@@ -18,8 +24,8 @@
             <label class="form-check-label" for="inlineRadio2">contains</label>
         </div>
         <div class="form-group mb-2">
-            <label for="staticText" class="sr-only">Search Text</label>
-            <input type="text" class="form-control" id="staticText" name="searchText" value="">
+            <label for="searchText" class="sr-only">Search Text</label>
+            <input type="text" class="form-control" id="searchText" name="searchText" value="">
         </div>
         <button id="sendBtn" class="btn btn-primary mb-2 ml-2">Search</button>
     </form>
@@ -133,6 +139,18 @@
                         $('#resultNoneModal').modal('show')
                     } else {
                         $('._list').html(data.data);
+                        var regExpEng = /[a-zA-Z]/;
+                        var $highlightTarget = null;
+                        var keyword = $('#searchText').val()
+                        if(regExpEng.test(keyword)){
+                            console.log('eng')
+                            $highlightTarget = $('._list').find('.eng')
+                        }else{
+                            console.log('kor')
+                            $highlightTarget = $('._list').find('.kor')
+                        }
+                        $highlightTarget.mark(keyword);
+
                     }
                 },
                 error: function (e) {
