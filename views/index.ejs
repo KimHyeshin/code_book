@@ -36,7 +36,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="resultNoneModal">결과</h5>
+                    <h5 class="modal-title" id="resultNoneModalLabel">결과</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -115,6 +115,26 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">삭제 확인</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    keyword : <span class="_keyword"></span><br/>
+                    삭제하시겠습니까?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="deleteBtn">삭제</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -187,6 +207,16 @@
                 }
             });
         });
+        // $(document).on("click", "#showDeleteBtn", function(event){
+        //     $('#deleteModal').modal('show')
+        // });
+        $('#deleteModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var keyword = button.data('keyword');
+            var modal = $(this);
+            $('#deleteBtn').attr('data-keyword', keyword)
+            $('#deleteModal ._keyword').text(keyword)
+        })
         $(document).on("click", "#deleteBtn", function(event){
             var keywordEng = $(event.target).data('keyword');
 
@@ -197,11 +227,13 @@
                 cache: false,
                 timeout: 600000,
                 success: function (data) {
+                    $('#deleteModal').modal('hide')
                     alert(keywordEng + " 키워드가 삭제되었습니다.");
                     console.log(data)
                     $('._list').html(data.data);
                 },
                 error: function (e) {
+                    $('#deleteModal').modal('hide')
                     console.log("ERROR : ", e);
                     alert("ERROR");
                 }
