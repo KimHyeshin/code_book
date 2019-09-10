@@ -1,11 +1,11 @@
 /**
  * server
  */
-var express = require('express');
-var app = express();
-var server = app.listen(3000, function(){
+const express = require('express');
+const app = express();
+let server = app.listen(3000, function(){
     console.log("Express server has started on port 3000")
-})
+});
 
 // db
 const low = require('lowdb');
@@ -14,9 +14,9 @@ const adapter = new FileSync('db.json');
 const db = low(adapter);
 
 // fs
-var fs = require('fs');
+const fs = require('fs');
 // ejs
-var ejs = require('ejs');
+const ejs = require('ejs');
 
 // parser
 app.use(express.json());
@@ -29,10 +29,10 @@ app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
 
 // route
-var indexRoute = require('./routes/index');
-var addRoute = require('./routes/add');
-var deleteRoute = require('./routes/delete');
-var modifyRoute = require('./routes/modify');
+const indexRoute = require('./routes/index');
+const addRoute = require('./routes/add');
+const deleteRoute = require('./routes/delete');
+const modifyRoute = require('./routes/modify');
 app.use('/', indexRoute);
 app.use('/add', addRoute);
 app.use('/delete', deleteRoute);

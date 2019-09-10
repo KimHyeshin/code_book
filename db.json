@@ -2,15 +2,9 @@
   "posts": [
     {
       "keywordEng": "keyword",
-      "keywordKor": "한글명1",
-      "date": "2019-08-12",
-      "author": "hyeshin"
-    },
-    {
-      "keywordEng": "abcd",
-      "keywordKor": "한글명2",
-      "date": "2019-08-13",
-      "author": "hyeshin"
+      "keywordKor": "한글명",
+      "date": "2019-09-09",
+      "author": "author"
     }
   ]
 }

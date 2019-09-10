@@ -32,6 +32,7 @@
     <div class="_list">
         <%- include('list', {data: data}); %>
     </div>
+    <div><button id="addListBtn" class="btn btn-primary mb-2">항목 추가</button></div>
     <div class="modal fade" id="resultNoneModal" tabindex="-1" role="dialog" aria-labelledby="resultNoneModal" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -142,7 +143,7 @@
     $(document).ready(function () {
         $("#sendBtn").click(function($event) {
             $event.preventDefault();
-            var data = $('#form').serialize();
+            let data = $('#form').serialize();
 
             $.ajax({
                 type: "POST",
@@ -154,20 +155,20 @@
                 timeout: 600000,
                 success: function (data) {
                     // alert("complete");
-                    console.log(data)
+                    console.log(data);
                     if(data.count == 0){
-                        $('#resultNoneModal').modal('show')
+                        $('#resultNoneModal').modal('show');
                     } else {
                         $('._list').html(data.data);
-                        var regExpEng = /[a-zA-Z]/;
-                        var $highlightTarget = null;
-                        var keyword = $('#searchText').val()
+                        let regExpEng = /[a-zA-Z]/;
+                        let $highlightTarget = null;
+                        let keyword = $('#searchText').val();
                         if(regExpEng.test(keyword)){
-                            console.log('eng')
-                            $highlightTarget = $('._list').find('.eng')
+                            console.log('eng');
+                            $highlightTarget = $('._list').find('.eng');
                         }else{
-                            console.log('kor')
-                            $highlightTarget = $('._list').find('.kor')
+                            console.log('kor');
+                            $highlightTarget = $('._list').find('.kor');
                         }
                         $highlightTarget.mark(keyword);
 
@@ -181,11 +182,14 @@
 
         });
         $(document).on("click", "#showAddBtn", function(event){
-            $('#resultNoneModal').modal('hide')
-            $('#addModal').modal('show')
+            $('#resultNoneModal').modal('hide');
+            $('#addModal').modal('show');
+        });
+        $(document).on("click", "#addListBtn", function(event){
+            $('#addModal').modal('show');
         });
         $(document).on("click", "#addBtn", function(event){
-            var data = $('#addForm').serialize();
+            let data = $('#addForm').serialize();
 
             $.ajax({
                 type: "POST",
@@ -196,9 +200,9 @@
                 cache: false,
                 timeout: 600000,
                 success: function (data) {
-                    $('#addModal').modal('hide')
+                    $('#addModal').modal('hide');
                     alert("키워드가 추가되었습니다.");
-                    console.log(data)
+                    console.log(data);
                     $('._list').html(data.data);
                 },
                 error: function (e) {
@@ -207,18 +211,14 @@
                 }
             });
         });
-        // $(document).on("click", "#showDeleteBtn", function(event){
-        //     $('#deleteModal').modal('show')
-        // });
         $('#deleteModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            var keyword = button.data('keyword');
-            var modal = $(this);
-            $('#deleteBtn').attr('data-keyword', keyword)
-            $('#deleteModal ._keyword').text(keyword)
+            let button = $(event.relatedTarget);
+            let keyword = button.data('keyword');
+            $('#deleteBtn').attr('data-keyword', keyword);
+            $('#deleteModal ._keyword').text(keyword);
         })
         $(document).on("click", "#deleteBtn", function(event){
-            var keywordEng = $(event.target).data('keyword');
+            let keywordEng = $(event.target).data('keyword');
 
             $.ajax({
                 type: "POST",
@@ -227,23 +227,23 @@
                 cache: false,
                 timeout: 600000,
                 success: function (data) {
-                    $('#deleteModal').modal('hide')
+                    $('#deleteModal').modal('hide');
                     alert(keywordEng + " 키워드가 삭제되었습니다.");
-                    console.log(data)
+                    console.log(data);
                     $('._list').html(data.data);
                 },
                 error: function (e) {
-                    $('#deleteModal').modal('hide')
+                    $('#deleteModal').modal('hide');
                     console.log("ERROR : ", e);
                     alert("ERROR");
                 }
             });
         });
         $(document).on("click", "#showModifyBtn", function(event){
-            $('#modifyModal').modal('show')
+            $('#modifyModal').modal('show');
         });
         $(document).on("click", "#modifyBtn", function(event){
-            var data = $('#modifyForm').serialize();
+            let data = $('#modifyForm').serialize();
 
             $.ajax({
                 type: "POST",
@@ -254,9 +254,9 @@
                 cache: false,
                 timeout: 600000,
                 success: function (data) {
-                    $('#modifyModal').modal('hide')
+                    $('#modifyModal').modal('hide');
                     alert("키워드 정보가 수정되었습니다.");
-                    console.log(data)
+                    console.log(data);
                     $('._list').html(data.data);
                 },
                 error: function (e) {
@@ -266,14 +266,14 @@
             });
         });
         $("#modifyModal").on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            var modal = $(this);
+            let button = $(event.relatedTarget); // Button that triggered the modal
+            let modal = $(this);
 
-            console.log('modifyModal show')
+            console.log('modifyModal show');
 
-            var keywordEng = button.attr('data-keywordEng');
-            var keywordKor = button.attr('data-keywordKor');
-            var author = button.attr('data-author');
+            let keywordEng = button.attr('data-keywordEng');
+            let keywordKor = button.attr('data-keywordKor');
+            let author = button.attr('data-author');
 
             modal.find('.modal-body #keywordEng2').val(keywordEng);
             modal.find('.modal-body #keywordKor2').val(keywordKor);

@@ -19,17 +19,17 @@ var ejs = require('ejs');
 // });
 
 router.post('/',function(req,res){
-    console.log("add POST")
+    console.log("add POST");
 
     var keywordEng = req.body.keywordEng;
     var keywordKor = req.body.keywordKor;
     var author = req.body.author;
     var date = new Date().toISOString().slice(0,10);
 
-    console.log("keywordEng : " + keywordEng)
-    console.log("keywordKor : " + keywordKor)
-    console.log("author : " + author)
-    console.log("date : " + date)
+    console.log("keywordEng : " + keywordEng);
+    console.log("keywordKor : " + keywordKor);
+    console.log("author : " + author);
+    console.log("date : " + date);
 
     // data 저장하기
     db.get('posts')
@@ -39,7 +39,7 @@ router.post('/',function(req,res){
             author: author,
             date: date,
         })
-        .write()
+        .write();
 
     // data 불러오기
     var data = db.get('posts').sortBy('keywordEng').value();
@@ -50,9 +50,9 @@ router.post('/',function(req,res){
 
     // 2. compile
     var template = ejs.compile(html_str);
-    var html = template({ data:data })
+    var html = template({ data:data });
     // console.log(html);
-    res.json({ data:html, count:data.length })
+    res.json({ data:html, count:data.length });
 });
 
 

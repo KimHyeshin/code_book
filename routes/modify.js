@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
 // db
 const low = require('lowdb');
@@ -8,9 +8,9 @@ const adapter = new FileSync('db.json');
 const db = low(adapter);
 
 // fs
-var fs = require('fs');
+const fs = require('fs');
 // ejs
-var ejs = require('ejs');
+const ejs = require('ejs');
 
 // router.get('/',function(req, res){
 //     console.log("GET")
@@ -19,17 +19,17 @@ var ejs = require('ejs');
 // });
 
 router.post('/',function(req,res){
-    console.log("modify POST")
+    console.log("modify POST");
 
-    var keywordEng = req.body.keywordEng;
-    var keywordKor = req.body.keywordKor;
-    var author = req.body.author;
-    var date = new Date().toISOString().slice(0,10);
+    let keywordEng = req.body.keywordEng;
+    let keywordKor = req.body.keywordKor;
+    let author = req.body.author;
+    let date = new Date().toISOString().slice(0,10);
 
-    console.log("keywordEng : " + keywordEng)
-    console.log("keywordKor : " + keywordKor)
-    console.log("author : " + author)
-    console.log("date : " + date)
+    console.log("keywordEng : " + keywordEng);
+    console.log("keywordKor : " + keywordKor);
+    console.log("author : " + author);
+    console.log("date : " + date);
 
     // data update
     db.get('posts')
@@ -38,15 +38,15 @@ router.post('/',function(req,res){
         .write();
 
     // data 불러오기
-    var data = db.get('posts').sortBy('keywordEng').value();
+    let data = db.get('posts').sortBy('keywordEng').value();
 
     // html str 만들기
     // 1. file read
-    var html_str = fs.readFileSync('views/list.ejs', 'utf-8');
+    let html_str = fs.readFileSync('views/list.ejs', 'utf-8');
 
     // 2. compile
-    var template = ejs.compile(html_str);
-    var html = template({ data:data })
+    let template = ejs.compile(html_str);
+    let html = template({ data:data });
     // console.log(html);
     res.json({ data:html, count:data.length })
 });
