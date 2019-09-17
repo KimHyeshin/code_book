@@ -1,4 +1,5 @@
 # codeBook
+node, ejs, lowdb를 이용한 간단한 Code book. 키워드(영문명/한글명)을 조회, 생성, 수정, 삭제 할 수 있으며 첫글자검색, 포함검색 기능이 있다.
 
 ## Project setup
 ```
